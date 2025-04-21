@@ -1,7 +1,7 @@
 def construct():
     enemies = []
     for i in range(10):
-        add_quaterRow(+-150, enemies)
+        add_quaterRow(-150, enemies)
         add_halfRow(+-50, enemies)
         add_fullRow(+50, enemies)
         add_halfRow(+150, enemies)
