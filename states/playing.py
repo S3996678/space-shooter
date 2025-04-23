@@ -22,6 +22,9 @@ class Playing:
         self.gun.run(self.player.get_player_pos())
 
         self.enemy.draw(self.screen)
+        self.enemy.kill_controller(self.gun.get_bullet())
+        # implement later fully
+        self.enemy.game_over_controller()
 
         pg.display.flip()
         self.clock.tick(cf.fps)

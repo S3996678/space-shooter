@@ -13,7 +13,6 @@ def construct():
         fullrow_start -= 300
         halfRow_start -= 300
         quaterRow_start -= 300
-        print(quaterRow_start, halfRow_start, fullrow_start)
     return enemies
 
 

@@ -22,6 +22,9 @@ class Gun:
         )
         self.isbul = True
 
+    def get_bullet(self):
+        return self.bulrect
+
     def run(self, player_pos):
         mouse = pg.mouse.get_pressed()
         if mouse[0] == True:
