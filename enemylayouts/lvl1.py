@@ -1,12 +1,19 @@
 def construct():
     enemies = []
+    # to keep track of all positions
+    fullrow_start = 50
+    halfRow_start = 150
+    quaterRow_start = 250
+
+    # create enemy patern by looping
     for i in range(10):
-        add_quaterRow(-150, enemies)
-        add_halfRow(+-50, enemies)
-        add_fullRow(+50, enemies)
-        add_halfRow(+150, enemies)
-        add_quaterRow((i * -500) + 250, enemies)
-        print(i)
+        add_fullRow(fullrow_start, enemies)
+        add_halfRow(halfRow_start, enemies)
+        add_quaterRow(quaterRow_start, enemies)
+        fullrow_start -= 300
+        halfRow_start -= 300
+        quaterRow_start -= 300
+        print(quaterRow_start, halfRow_start, fullrow_start)
     return enemies
 
 
