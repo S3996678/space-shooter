@@ -24,6 +24,7 @@ class Config:
     bullet_1_pic = pg.image.load("assets/images/bullet1.png")
     bullet_1_pic = pg.transform.scale(bullet_1_pic, (bulx, buly))
     bullet_1 = bullet_1_pic.get_rect()
+    gun_cooldown = 200
 
     # space invader
     si_x = 75

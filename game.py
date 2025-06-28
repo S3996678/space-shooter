@@ -12,15 +12,12 @@ class Game:
         self.running = True
         self.game_state = playing.Playing(self.screen, self.clock)
 
-    def handle_event(self):
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                self.running = False
-
     def run(self):
 
+        # loop game until end
         while self.running:
-            self.handle_event()
+            if not self.game_state.handle_events():
+                self.running = False
             self.game_state.draw()
 
 

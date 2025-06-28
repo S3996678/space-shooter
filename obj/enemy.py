@@ -23,6 +23,7 @@ class Enemy:
         for enemy in self.enemies:
             if enemy.colliderect(bullet):
                 self.enemies.remove(enemy)
+                return True
 
     # controlls the game over when enemy reaches the buttom
     def game_over_controller(self):
