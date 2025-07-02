@@ -19,21 +19,17 @@ class Config:
     pr = player_image.get_rect()
 
     # gun attributes
-    bulx = 50
-    buly = 50
+    bulx = 25
+    buly = 25
     bullet_1_pic = pg.image.load("assets/images/bullet1.png")
     bullet_1_pic = pg.transform.scale(bullet_1_pic, (bulx, buly))
     bullet_1 = bullet_1_pic.get_rect()
-    gun_cooldown = 200  # cooldown
-
+    gun_cooldown = 850  # cooldown
+    bullet_speed = 5
     # bullet attributes
     pg.font.init()
     bullet_starting_count = 10
     font = pg.font.SysFont(None, 48)  # default font, size 48
-    bullet_count_colour = (255, 255, 255)
-    bullet_count_position = (5 / 6) * game_height, (
-        5 / 6
-    ) * game_width  # bullet count position
 
     # space invader
     si_x = 75
@@ -50,6 +46,17 @@ class Config:
     space_high_pic = pg.transform.scale(space_high_pic, (si_x, si_y))
 
     space_invader_scores = {"space_low": 10, "space_med": 20, "space_high": 40}
+
+    invader_drop_rate = 1
+
+    space_bullet_pic = pg.image.load("assets/images/enemy_bullet.png")
+    space_bullet_pic = pg.transform.scale(space_bullet_pic, (25, 25))
+    space_bullet = space_bullet_pic.get_rect()
+    space_bullet_speed = 5
+
+    # score
+    score_count_colour = (255, 255, 255)
+    score_count_position = (100, game_height - 100)  # score count position
 
     # space invader's posistions
     pos_highVal = lvl1.construct("high")

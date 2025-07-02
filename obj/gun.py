@@ -15,7 +15,7 @@ class Gun:
     def shoot(self):
         if self.isbul:
             for bullet in self.bulrect:
-                bullet.move_ip(0, -2)
+                bullet.move_ip(0, -cf.bullet_speed)
                 self.screen.blit(self.bullet, bullet)
 
     # updates bullets

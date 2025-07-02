@@ -1,2 +1,6 @@
 files:
 - lvl1 to create a layout for the enemies to be generated in level1
+
+structure designs:
+
+- enemies constructed from a si_constructor.py and is stored by a list of dicts each value level eg. low level invader stores a list of of relative rects
