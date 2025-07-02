@@ -35,10 +35,8 @@ class Gun:
         for bullet in self.bulrect:
             if bullet.y == 0:
                 self.bulrect.remove(bullet)
-
         if used:
             self.bulrect.remove(used)
-            print("tt")
 
     # controll mouse clicks to shoot
     def mouse_click(self, player_pos, cooldown=False, mouse=False):

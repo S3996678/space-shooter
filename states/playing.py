@@ -1,8 +1,6 @@
 import pygame as pg
 from config import Config as cf
-from obj import player
-from obj import gun
-from obj import enemy
+from obj import player, gun, enemy, bullet
 
 
 class Playing:
@@ -11,6 +9,7 @@ class Playing:
         self.clock = clock
         self.player = player.Player(self.screen)
         self.gun = gun.Gun(self.screen)
+        # self.bullet = bullet.Bullet(self.screen)
         self.enemy = enemy.Enemy()
         self.enemy.contsructor()
 
@@ -31,6 +30,7 @@ class Playing:
         active_bullets = self.gun.get_bullet()
         for bullet in active_bullets:
             if self.enemy.kill_controller(bullet):
+
                 self.gun.remove_bullet(bullet)
 
         # implement later fully

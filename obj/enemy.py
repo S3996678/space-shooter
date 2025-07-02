@@ -6,6 +6,8 @@ from .si_constructor import Constructor
 class Enemy:
     def __init__(self):
         self.contstruct = Constructor()
+        self.direction_right = True
+        self.score = 0
 
     # construct all enemies
     def contsructor(self):
@@ -13,22 +15,50 @@ class Enemy:
 
     # draw and move all enemies
     def draw(self, screen):
-        for enemy in self.enemies:
-            enemy.move_ip(0, cf.space_invader_speed)
-            pg.draw.rect(screen, cf.space_invader_color, enemy)
-            screen.blit(cf.space_invader_pic, (enemy.x, enemy.y))
+        size = "space_high"
+        # loop over all evemies
+        for type, enemies in self.enemies.items():
+
+            for enemy in enemies:
+                size = type
+                if self.direction_right:
+                    enemy.move_ip(cf.space_invader_speed, 0)
+                elif not self.direction_right:
+                    enemy.move_ip(-cf.space_invader_speed, 0)
+                pg.draw.rect(screen, cf.space_invader_color, enemy)
+                screen.blit(getattr(cf, f"{size}_pic"), (enemy.x, enemy.y))
+
+                if enemy.x + cf.si_x >= cf.game_width:
+                    self.direction_right = False
+                    for type, enemies in self.enemies.items():
+                        for enemy in enemies:
+                            size = type
+                            enemy.move_ip(0, 50)
+                            pg.draw.rect(screen, cf.space_invader_color, enemy)
+                            screen.blit(getattr(cf, f"{size}_pic"), (enemy.x, enemy.y))
+                elif enemy.x == 0:
+                    self.direction_right = True
+                    for type, enemies in self.enemies.items():
+                        for enemy in enemies:
+                            size = type
+                            enemy.move_ip(0, 50)
+                            pg.draw.rect(screen, cf.space_invader_color, enemy)
+                            screen.blit(getattr(cf, f"{size}_pic"), (enemy.x, enemy.y))
 
     # to control the killing of enemies
     def kill_controller(self, bullet):
-        for enemy in self.enemies:
-            if enemy.colliderect(bullet):
-                self.enemies.remove(enemy)
-                return True
+        for type, enemies in self.enemies.items():
+            for enemy in enemies:
+                if enemy.colliderect(bullet):
+                    self.enemies[type].remove(enemy)
+                    self.score += cf.space_invader_scores[type]
+                    return True
 
     # controlls the game over when enemy reaches the buttom
     def game_over_controller(self):
-        for enemy in self.enemies:
-            if enemy.y == cf.game_height:
-                print("gameover")
+        for type, enemies in self.enemies.items():
+            for enemy in enemies:
+                if enemy.y == cf.game_height:
+                    print("gameover")
 
     def run(self): ...

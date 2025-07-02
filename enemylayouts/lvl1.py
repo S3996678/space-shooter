@@ -1,18 +1,21 @@
-def construct():
+def construct(value):
     enemies = []
     # to keep track of all positions
-    fullrow_start = 50
-    halfRow_start = 150
-    quaterRow_start = 250
+    high_start = 50
+    medium_start = 150
+    low_start = 350
 
-    # create enemy patern by looping
-    for i in range(10):
-        add_fullRow(fullrow_start, enemies)
-        add_halfRow(halfRow_start, enemies)
-        add_quaterRow(quaterRow_start, enemies)
-        fullrow_start -= 300
-        halfRow_start -= 300
-        quaterRow_start -= 300
+    if value == "high":
+        add_fullRow(high_start, enemies)
+    elif value == "medium":
+        for i in range(2):
+            add_fullRow(medium_start, enemies)
+            medium_start += 100
+    elif value == "low":
+        for i in range(2):
+            add_fullRow(low_start, enemies)
+            low_start += 100
+
     return enemies
 
 
@@ -20,15 +23,3 @@ def construct():
 def add_fullRow(row, enemies):
     for i in range(11):
         enemies.append([(i + 1) * 100, row])
-
-
-# add a row with invaders placed 200 apart
-def add_halfRow(row, enemies):
-    for i in range(5):
-        enemies.append([(i + 1) * 200, row])
-
-
-# add a row with placed 300 apart
-def add_quaterRow(row, enemies):
-    for i in range(3):
-        enemies.append([(i + 1) * 300, row])

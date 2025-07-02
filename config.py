@@ -3,7 +3,7 @@ from enemylayouts import lvl1
 
 
 class Config:
-    game_width = 1280
+    game_width = 1800
     game_height = 1280
     background = "black"
     fps = 60
@@ -24,16 +24,32 @@ class Config:
     bullet_1_pic = pg.image.load("assets/images/bullet1.png")
     bullet_1_pic = pg.transform.scale(bullet_1_pic, (bulx, buly))
     bullet_1 = bullet_1_pic.get_rect()
-    gun_cooldown = 200
+    gun_cooldown = 200  # cooldown
+
+    # bullet attributes
+    pg.font.init()
+    bullet_starting_count = 10
+    font = pg.font.SysFont(None, 48)  # default font, size 48
+    bullet_count_colour = (255, 255, 255)
+    bullet_count_position = (5 / 6) * game_height, (
+        5 / 6
+    ) * game_width  # bullet count position
 
     # space invader
     si_x = 75
     si_y = 75
     space_invader_speed = 1
     space_invader_color = (0, 0, 0)
-    space_invader_pic = pg.image.load("assets/images/space_invader.png")
-    space_invader_pic = pg.transform.scale(space_invader_pic, (si_x, si_y))
+    space_med_pic = pg.image.load("assets/images/space_invader.png")
+    space_med_pic = pg.transform.scale(space_med_pic, (si_x, si_y))
+
+    space_low_pic = pg.image.load("assets/images/space_low.png")
+    space_low_pic = pg.transform.scale(space_low_pic, (si_x, si_y))
+
+    space_high_pic = pg.image.load("assets/images/space_high.png")
+    space_high_pic = pg.transform.scale(space_high_pic, (si_x, si_y))
+
+    space_invader_scores = {"space_low": 10, "space_med": 20, "space_high": 40}
 
     # space invader's posistions
-    pos = lvl1.construct()
-    pos_level_1 = pos
+    pos_highVal = lvl1.construct("high")
