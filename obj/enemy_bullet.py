@@ -7,7 +7,6 @@ class Enemy_gun:
         self.screen = screen
 
         self.bullet = cf.space_bullet_pic
-        print(cf.space_bullet_pic)
         self.bulrect = []
 
         self.isbul = False

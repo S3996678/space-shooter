@@ -1,6 +1,6 @@
 import pygame as pg
 from config import Config as cf
-from obj import player, gun, enemy, bullet, enemy_bullet
+from obj import player, gun, enemy, bullet, enemy_bullet, shelter
 import random
 
 
@@ -14,6 +14,8 @@ class Playing:
         self.enemy = enemy.Enemy()
         self.enemy_bullet = enemy_bullet.Enemy_gun(self.screen)
         self.enemy.contsructor()
+        self.shelter = shelter.Shelter(self.screen)
+        self.shelter.constructor(1)
 
         self.click_cooldown = cf.gun_cooldown
         self.last_click_time = 0
@@ -45,8 +47,17 @@ class Playing:
             if self.player.get_player_pos().colliderect(bullet):
                 print("game over")
 
-        # score handler
+        # shelter
+        self.shelter.draw()
+        # remove bullet and shelter if contact is made
+        for bullet in active_bullets:
+            if self.shelter.update_shelter(bullet):
+                self.gun.remove_bullet(bullet)
+        for bullet in active_enemy_bullets:
+            if self.shelter.update_shelter(bullet):
+                self.enemy_bullet.remove_bullet(bullet)
 
+        # score handler
         score_text = cf.font.render(
             str(self.enemy.get_score()), True, cf.score_count_colour
         )

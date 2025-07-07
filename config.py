@@ -58,5 +58,7 @@ class Config:
     score_count_colour = (255, 255, 255)
     score_count_position = (100, game_height - 100)  # score count position
 
-    # space invader's posistions
-    pos_highVal = lvl1.construct("high")
+    # shelter
+    shelter_xy = 10
+    shelter_bits_pic = pg.image.load("assets/images/shelter_pix.png")
+    shelter_bits_pic = pg.transform.scale(shelter_bits_pic, (shelter_xy, shelter_xy))
