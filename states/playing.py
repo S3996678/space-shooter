@@ -5,9 +5,13 @@ import random
 
 
 class Playing:
-    def __init__(self, screen, clock):
+    def __init__(self, screen, clock, lvl):
+        cf.play_game_music()
+
+        self.playing = True
         self.screen = screen
         self.clock = clock
+        self.lvl = lvl
         self.player = player.Player(self.screen)
         self.gun = gun.Gun(self.screen)
         # self.bullet = bullet.Bullet(self.screen)
@@ -15,14 +19,14 @@ class Playing:
         self.enemy_bullet = enemy_bullet.Enemy_gun(self.screen)
         self.enemy.contsructor()
         self.shelter = shelter.Shelter(self.screen)
-        self.shelter.constructor(1)
+        self.shelter.constructor(self.lvl)
 
-        self.click_cooldown = cf.gun_cooldown
+        self.click_cooldown = getattr(cf, f"gun_cooldown_{lvl}")
         self.last_click_time = 0
         self.last_enemy_trigger = 0
 
     def draw(self):
-        self.screen.fill(cf.background)
+        self.screen.blit(cf.menu_background, (0, 0))
 
         # run player
         self.player.run()
@@ -30,12 +34,12 @@ class Playing:
         self.enemy_bullet.run()
 
         # draw enemies
-        self.enemy.draw(self.screen)
+        self.enemy.draw(self.screen, self.lvl)
 
         # kill enemies
         active_bullets = self.gun.get_bullet()
         for bullet in active_bullets:
-            if self.enemy.kill_controller(bullet):
+            if self.enemy.kill_controller(bullet, self.lvl):
 
                 self.gun.remove_bullet(bullet)
 
@@ -45,7 +49,8 @@ class Playing:
         active_enemy_bullets = self.enemy_bullet.get_bullet()
         for bullet in active_enemy_bullets:
             if self.player.get_player_pos().colliderect(bullet):
-                print("game over")
+                cf.lost_sound.play()
+                self.playing = False
 
         # shelter
         self.shelter.draw()
@@ -59,7 +64,7 @@ class Playing:
 
         # score handler
         score_text = cf.font.render(
-            str(self.enemy.get_score()), True, cf.score_count_colour
+            "score: " + str(self.enemy.get_score()), True, cf.score_count_colour
         )
         self.screen.blit(score_text, cf.score_count_position)
 
@@ -72,8 +77,7 @@ class Playing:
         if self.current_time - self.last_enemy_trigger >= 1000:
             self.last_enemy_trigger = self.current_time
             if random.randint(1, cf.invader_drop_rate) == 1:
-                enemy_bull = self.enemy.enemy_shooter()
-                self.enemy_bullet.trigger(enemy_bull)
+                self.drop_enemy_bullets()
 
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -83,6 +87,35 @@ class Playing:
             if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
                 if self.current_time - self.last_click_time >= self.click_cooldown:
                     self.gun.mouse_click(self.player.get_player_pos(), True, True)
+                    cf.shoot_sound.play()
                     self.last_click_time = self.current_time
 
         return True
+
+    def drop_enemy_bullets(self):
+        if self.lvl == 1 or self.lvl == 2:
+            enemy_bull = self.enemy.enemy_shooter()
+            if enemy_bull:
+                self.enemy_bullet.trigger(enemy_bull)
+        elif self.lvl == 3:
+            for i in range(2):
+                enemy_bull = self.enemy.enemy_shooter()
+                if enemy_bull:
+                    self.enemy_bullet.trigger(enemy_bull)
+        elif self.lvl == 4:
+            for i in range(3):
+                enemy_bull = self.enemy.enemy_shooter()
+                if enemy_bull:
+                    self.enemy_bullet.trigger(enemy_bull)
+        elif self.lvl == 5:
+            for i in range(4):
+                enemy_bull = self.enemy.enemy_shooter()
+                if enemy_bull:
+                    self.enemy_bullet.trigger(enemy_bull)
+
+    def game_status_change(self):
+        if self.playing:
+            return None
+        else:
+            print("here")
+            return self.enemy.get_score()

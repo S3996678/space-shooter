@@ -15,7 +15,7 @@ class Enemy:
         self.enemies = self.contstruct.space_invader_constructor()
 
     # draw and move all enemies
-    def draw(self, screen):
+    def draw(self, screen, lvl):
         size = "space_high"
         # loop over all evemies
         for type, enemies in self.enemies.items():
@@ -23,9 +23,9 @@ class Enemy:
             for enemy in enemies:
                 size = type
                 if self.direction_right:
-                    enemy.move_ip(cf.space_invader_speed, 0)
+                    enemy.move_ip(getattr(cf, f"space_invader_speed_{lvl}"), 0)
                 elif not self.direction_right:
-                    enemy.move_ip(-cf.space_invader_speed, 0)
+                    enemy.move_ip(-getattr(cf, f"space_invader_speed_{lvl}"), 0)
                 # pg.draw.rect(screen, cf.space_invader_color, enemy)
                 screen.blit(getattr(cf, f"{size}_pic"), (enemy.x, enemy.y))
 
@@ -46,14 +46,21 @@ class Enemy:
                             enemy.move_ip(0, 50)
                             # pg.draw.rect(screen, cf.space_invader_color, enemy)
                             screen.blit(getattr(cf, f"{size}_pic"), (enemy.x, enemy.y))
+        # if enemies finished reset enemies
+        if all(
+            isinstance(enemy, list) and not enemy for enemy in self.enemies.values()
+        ):
+            print("All lists are empty")
+            self.enemies = self.contstruct.space_invader_constructor()
 
     # to control the killing of enemies
-    def kill_controller(self, bullet):
+    def kill_controller(self, bullet, lvl):
         for type, enemies in self.enemies.items():
             for enemy in enemies:
                 if enemy.colliderect(bullet):
                     self.enemies[type].remove(enemy)
-                    self.score += cf.space_invader_scores[type]
+                    score_dict = getattr(cf, f"space_invader_scores_{lvl}")
+                    self.score += score_dict[type]
                     return True
 
     # controlls the game over when enemy reaches the buttom
@@ -64,8 +71,11 @@ class Enemy:
                     print("gameover")
 
     def enemy_shooter(self):
+        available_levels = [lvl for lvl in self.enemies if self.enemies[lvl]]
+        if not available_levels:
+            return None  # No enemies left
         # pick a random level invader then an invader
-        level = random.choice(list(self.enemies))
+        level = random.choice(available_levels)
         invader = random.choice(self.enemies[level])
         return invader
 

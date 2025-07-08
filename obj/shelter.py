@@ -47,7 +47,6 @@ class Shelter:
     def update_shelter(self, bullet):
         for pix in self.shelter:
             if pix.colliderect(bullet):
-                print("HIT", pix, bullet, len(self.shelter))
                 self.shelter.remove(pix)
                 return True
         return False

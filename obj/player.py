@@ -18,12 +18,12 @@ class Player:
         key = pg.key.get_pressed()
         if key[pg.K_a] == True:
             self.player_rect.x -= self.player_speed
+            if self.player_rect.x <= 0:
+                self.player_rect.x = 0
         elif key[pg.K_d] == True:
             self.player_rect.x += self.player_speed
-        elif key[pg.K_w] == True:
-            self.player_rect.y -= self.player_speed
-        elif key[pg.K_s] == True:
-            self.player_rect.y += self.player_speed
+            if self.player_rect.right > cf.game_width:
+                self.player_rect.right = cf.game_width
 
     def draw(self, screen):
         pg.draw.rect(screen, self.player_color, self.player_rect)

@@ -22,7 +22,7 @@ class Gun:
     def trigger(self, player_pos):
         # update list with new bullet
         pg.Rect.update(
-            self.bulrect[-1], player_pos.x + cf.bulx / 2, player_pos.y, cf.bulx, cf.buly
+            self.bulrect[-1], player_pos.centerx, player_pos.y, cf.bulx, cf.buly
         )
         self.isbul = True
 
