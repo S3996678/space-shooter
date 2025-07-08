@@ -44,7 +44,8 @@ class Playing:
                 self.gun.remove_bullet(bullet)
 
         # implement later fully
-        self.enemy.game_over_controller()
+        if self.enemy.game_over_controller():
+            self.playing = False
 
         active_enemy_bullets = self.enemy_bullet.get_bullet()
         for bullet in active_enemy_bullets:
@@ -117,5 +118,4 @@ class Playing:
         if self.playing:
             return None
         else:
-            print("here")
             return self.enemy.get_score()

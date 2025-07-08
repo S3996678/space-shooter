@@ -68,7 +68,8 @@ class Enemy:
         for type, enemies in self.enemies.items():
             for enemy in enemies:
                 if enemy.y == cf.game_height:
-                    print("gameover")
+                    return True
+        return False
 
     def enemy_shooter(self):
         available_levels = [lvl for lvl in self.enemies if self.enemies[lvl]]
